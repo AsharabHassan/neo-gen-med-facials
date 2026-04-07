@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useApp } from "@/lib/store";
 import SuitabilityRing from "@/components/SuitabilityRing";
 import ConcernCard from "@/components/ConcernCard";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import GoogleReviews from "@/components/GoogleReviews";
 
 export default function ResultsScreen() {
   const { state, dispatch } = useApp();
@@ -62,6 +64,8 @@ export default function ResultsScreen() {
           ))}
         </div>
 
+        <BeforeAfterSlider />
+
         <div className="card-teal px-4 py-3.5 flex items-start gap-3">
           <div className="flex-shrink-0 mt-0.5 text-brand-teal-dark">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -79,6 +83,8 @@ export default function ResultsScreen() {
             </p>
           </div>
         </div>
+
+        <GoogleReviews />
 
         <p className="font-sans text-[9px] text-text-light text-center leading-relaxed tracking-wide uppercase">
           AI-Generated Assessment . For Informational Purposes Only

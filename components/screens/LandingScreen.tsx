@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useApp } from "@/lib/store";
+import GoogleReviews from "@/components/GoogleReviews";
 
 const container = {
   hidden: {},
@@ -74,6 +75,11 @@ export default function LandingScreen() {
               </span>
             </div>
           ))}
+        </motion.div>
+
+        {/* Google Reviews */}
+        <motion.div variants={item} className="w-full">
+          <GoogleReviews />
         </motion.div>
       </motion.div>
 
