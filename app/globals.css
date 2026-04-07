@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #FAF7F4;
+    color: #333333;
+    font-family: var(--font-open-sans), Arial, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .screen {
+    @apply min-h-screen max-w-md mx-auto flex flex-col px-6 py-10;
+  }
+
+  .btn-primary {
+    @apply relative overflow-hidden font-sans font-bold uppercase transition-all duration-300 px-8 py-4 block text-center rounded-lg;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: #FFFFFF;
+    background: linear-gradient(180deg, #E08B66 0%, #D4764E 50%, #B8603A 100%);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 4px 20px rgba(212,118,78,0.25);
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%);
+    background-size: 200% 100%;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .btn-primary:hover::after {
+    opacity: 1;
+    animation: shimmer 0.6s ease forwards;
+  }
+
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-outline {
+    @apply relative font-sans font-bold uppercase transition-all duration-300 px-8 py-4 block text-center rounded-lg;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    border: 1.5px solid rgba(212,118,78,0.4);
+    color: #D4764E;
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    border-color: #D4764E;
+    background: rgba(212,118,78,0.05);
+  }
+
+  .btn-outline:active {
+    transform: scale(0.98);
+  }
+
+  .label-xs {
+    font-family: var(--font-open-sans), Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #D4764E;
+    font-weight: 600;
+  }
+
+  .input-field {
+    @apply w-full bg-transparent py-3 font-sans font-normal focus:outline-none transition-colors duration-300;
+    font-size: 14px;
+    color: #333333;
+    border-bottom: 1.5px solid rgba(0,0,0,0.1);
+    letter-spacing: 0.02em;
+  }
+
+  .input-field::placeholder {
+    color: #BBBBBB;
+  }
+
+  .input-field:focus {
+    border-bottom-color: #D4764E;
+  }
+
+  .card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .card-teal {
+    background: linear-gradient(135deg, rgba(130,192,199,0.08) 0%, rgba(130,192,199,0.03) 100%);
+    border: 1px solid rgba(130,192,199,0.2);
+    border-radius: 12px;
+  }
+}
