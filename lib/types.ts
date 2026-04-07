@@ -15,6 +15,7 @@ export type ConcernIcon =
   | "acne"
   | "laxity"
   | "redness"
+  | "undereye"
   | "quality";
 
 export type SuitabilityTier =

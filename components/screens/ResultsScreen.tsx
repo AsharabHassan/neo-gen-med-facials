@@ -30,7 +30,7 @@ export default function ResultsScreen() {
           <div className="flex items-center justify-between">
             <span className="label-xs">NeoGen Suitability Report</span>
             <span className="font-sans text-[9px] text-text-light tracking-wider uppercase">
-              {concernsWithIssues} of 7 areas identified
+              {concernsWithIssues} of 8 areas identified
             </span>
           </div>
           <div className="w-full h-px bg-brand-orange/10" />

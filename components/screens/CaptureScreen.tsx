@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useApp } from "@/lib/store";
 import { useCamera } from "@/hooks/useCamera";
@@ -9,7 +9,6 @@ export default function CaptureScreen() {
   const { dispatch } = useApp();
   const { videoRef, canvasRef, isActive, error, startCamera, stopCamera, capturePhoto } =
     useCamera();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     startCamera();
@@ -24,18 +23,6 @@ export default function CaptureScreen() {
       dispatch({ type: "SET_IMAGE", imageDataUrl: dataUrl });
       dispatch({ type: "SET_SCREEN", screen: "analysing" });
     }
-  }
-
-  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      dispatch({ type: "SET_IMAGE", imageDataUrl: dataUrl });
-      dispatch({ type: "SET_SCREEN", screen: "analysing" });
-    };
-    reader.readAsDataURL(file);
   }
 
   return (
@@ -99,12 +86,14 @@ export default function CaptureScreen() {
 
           {error && (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-6 bg-surface-warm/95 gap-4">
-              <p className="font-sans text-sm text-text-muted text-center">{error}</p>
+              <p className="font-sans text-sm text-text-muted text-center">
+                Please enable camera access to continue
+              </p>
               <button
                 className="btn-outline"
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => startCamera()}
               >
-                Upload a Photo
+                Try Again
               </button>
             </div>
           )}
@@ -124,14 +113,6 @@ export default function CaptureScreen() {
       </div>
 
       <canvas ref={canvasRef} className="hidden" />
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        capture="user"
-        className="hidden"
-        onChange={handleFileUpload}
-      />
 
       <div className="w-full space-y-2.5">
         {isActive && (
@@ -144,12 +125,6 @@ export default function CaptureScreen() {
             Capture Photo
           </motion.button>
         )}
-        <button
-          className="btn-outline w-full"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          Upload from Gallery
-        </button>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const skinConcernSchema = z.object({
   finding: z.string(),
   neoGenBenefit: z.string(),
   severity: z.enum(["none", "mild", "moderate", "significant"]),
-  icon: z.enum(["wrinkles", "texture", "pigmentation", "acne", "laxity", "redness", "quality"]),
+  icon: z.enum(["wrinkles", "texture", "pigmentation", "acne", "laxity", "redness", "undereye", "quality"]),
 });
 
 const analysisResultSchema = z.object({
@@ -23,7 +23,7 @@ const analysisResultSchema = z.object({
   suitabilityScore: z.number().min(0).max(100),
   suitabilityTier: z.enum(["Excellent Candidate", "Good Candidate", "Moderate Candidate"]),
   overallSummary: z.string(),
-  concerns: z.array(skinConcernSchema).length(7),
+  concerns: z.array(skinConcernSchema).length(8),
 });
 
 export async function POST(req: NextRequest) {

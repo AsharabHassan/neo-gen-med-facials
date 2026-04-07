@@ -72,6 +72,15 @@ export default function ConcernIcon({ icon, size = 28, className = "" }: Props) 
         <path d="M14 10c0 3 1 5 2 8" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
       </svg>
     ),
+    undereye: (
+      <svg width={size} height={size} viewBox="0 0 28 28" fill="none" className={className}>
+        <path d="M6 14c0 0 3.5-5 8-5s8 5 8 5" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+        <path d="M6 14c0 0 3.5 5 8 5s8-5 8-5" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+        <circle cx="14" cy="14" r="2.5" stroke={stroke} strokeWidth={sw} />
+        <path d="M8 19c1 2 3 3.5 6 3.5s5-1.5 6-3.5" stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeDasharray="2 2" />
+        <path d="M9.5 20.5c.8 1.2 2.2 2 4.5 2s3.7-.8 4.5-2" stroke={stroke} strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+      </svg>
+    ),
     quality: (
       <svg width={size} height={size} viewBox="0 0 28 28" fill="none" className={className}>
         <ellipse cx="14" cy="15" rx="7" ry="9" stroke={stroke} strokeWidth={sw} />

@@ -11,7 +11,8 @@ const CONCERNS = [
   { id: "04", name: "ACNE & SCARRING" },
   { id: "05", name: "SKIN LAXITY" },
   { id: "06", name: "REDNESS & VASCULAR" },
-  { id: "07", name: "OVERALL SKIN QUALITY" },
+  { id: "07", name: "UNDER EYE AREA" },
+  { id: "08", name: "OVERALL SKIN QUALITY" },
 ];
 
 export default function AnalysingScreen() {
