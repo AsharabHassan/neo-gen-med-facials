@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApp } from "@/lib/store";
 import { leadSchema, LeadFormData } from "@/lib/validation";
+import { getMetaParams, generateEventId } from "@/lib/meta";
 
 export default function GateScreen() {
   const { state, dispatch } = useApp();
@@ -16,6 +17,9 @@ export default function GateScreen() {
   } = useForm<LeadFormData>({ resolver: zodResolver(leadSchema) });
 
   function onSubmit(data: LeadFormData) {
+    const metaParams = getMetaParams();
+    const eventId = generateEventId();
+
     fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -25,6 +29,15 @@ export default function GateScreen() {
         email: data.email,
         phone: data.phone,
         marketingConsent: data.marketingConsent,
+        analysisResult: state.analysisResult,
+        meta: {
+          fbp: metaParams.fbp,
+          fbc: metaParams.fbc,
+          fbclid: metaParams.fbclid,
+          eventId,
+          eventName: "Lead",
+          pageUrl: window.location.href,
+        },
       }),
     }).catch((err) => console.error("Lead submission error:", err));
 
