@@ -19,7 +19,7 @@
     "zod": "^4.3.6"
   },
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "devDependencies": {
     "@types/node": "^20",
