@@ -53,7 +53,7 @@ export default function BookingScreen() {
         <motion.div variants={item} className="w-full space-y-0">
           <p className="label-xs mb-3">Session Overview</p>
           {[
-            { code: "01", text: "15-minute free consultation" },
+            { code: "01", text: "30-minute free consultation" },
             { code: "02", text: "Review AI analysis with a specialist" },
             { code: "03", text: "Personalised NeoGen treatment plan" },
             { code: "04", text: "No obligation - completely free" },
