@@ -14,7 +14,7 @@ const BENEFITS: {
   afterImg: string;
 }[] = [
   {
-    title: "Pigmentation & Skin Texture",
+    title: "Pigmentation, Skin Texture & Overall Skin",
     before: "Uneven tone & rough texture",
     after: "Smoother, more even complexion",
     icon: "pigmentation",
