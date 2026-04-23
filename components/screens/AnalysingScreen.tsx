@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useApp } from "@/lib/store";
 
@@ -15,10 +16,22 @@ const CONCERNS = [
   { id: "08", name: "OVERALL SKIN QUALITY" },
 ];
 
+const CAPTIONS = [
+  "Scanning wrinkles",
+  "Assessing texture",
+  "Detecting pigmentation",
+  "Evaluating scars",
+  "Measuring laxity",
+  "Checking redness",
+  "Analysing under eye",
+  "Assessing quality",
+];
+
 export default function AnalysingScreen() {
   const { state, dispatch } = useApp();
   const [activeConcern, setActiveConcern] = useState(0);
   const [dots, setDots] = useState(".");
+  const [progressPct, setProgressPct] = useState(0);
 
   useEffect(() => {
     if (!state.imageDataUrl) {
@@ -70,9 +83,13 @@ export default function AnalysingScreen() {
     const dotInterval = setInterval(() => {
       setDots((d) => (d.length >= 3 ? "." : d + "."));
     }, 400);
+    const progressInterval = setInterval(() => {
+      setProgressPct((p) => Math.min(95, p + Math.max(1, Math.round((95 - p) * 0.08))));
+    }, 350);
     return () => {
       clearInterval(concernInterval);
       clearInterval(dotInterval);
+      clearInterval(progressInterval);
     };
   }, []);
 
@@ -119,12 +136,52 @@ export default function AnalysingScreen() {
         </div>
 
         <div className="flex flex-col items-center gap-6 text-center">
+          <div
+            className="relative flex items-center justify-center"
+            style={{ width: 200, height: 200 }}
+          >
+            {[0, 1, 2].map((i) => (
+              <motion.span
+                key={i}
+                className="absolute rounded-full border border-brand-orange/30"
+                initial={{ width: 80, height: 80, opacity: 0 }}
+                animate={{
+                  width: [80, 200],
+                  height: [80, 200],
+                  opacity: [0.5, 0],
+                }}
+                transition={{
+                  duration: 2.4,
+                  repeat: Infinity,
+                  delay: i * 0.8,
+                  ease: "easeOut",
+                }}
+              />
+            ))}
+            <motion.div
+              className="absolute rounded-full bg-brand-orange/5"
+              animate={{ scale: [1, 1.08, 1], opacity: [0.6, 0.9, 0.6] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              style={{ width: 110, height: 110 }}
+            />
+            <motion.div
+              animate={{ scale: [1, 1.04, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="relative z-10"
+            >
+              <Image src="/logo.svg" alt="MEDfacials" width={140} height={42} priority />
+            </motion.div>
+          </div>
+
           <div className="space-y-2">
             <h2 className="font-serif text-[2.8rem] italic text-text-primary leading-none tracking-tight">
               Analysing
             </h2>
-            <p className="font-sans text-xs text-text-muted tracking-wider uppercase">
-              Assessing your skin{dots}
+            <p className="font-sans text-xs text-text-muted tracking-wider uppercase min-h-[1em]">
+              {CAPTIONS[activeConcern]}{dots}
+            </p>
+            <p className="font-sans text-[11px] text-brand-orange/70 tracking-[0.2em] font-semibold tabular-nums pt-1">
+              {progressPct}%
             </p>
           </div>
         </div>
