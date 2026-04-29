@@ -20,6 +20,11 @@ export default function GateScreen() {
     const metaParams = getMetaParams();
     const eventId = generateEventId();
 
+    const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
+    if (fbq) {
+      fbq("track", "Lead", {}, { eventID: eventId });
+    }
+
     fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
