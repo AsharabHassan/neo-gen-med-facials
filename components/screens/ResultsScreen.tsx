@@ -66,6 +66,19 @@ export default function ResultsScreen() {
 
         <BeforeAfterSlider />
 
+        <div className="w-full space-y-3">
+          <p className="label-xs">Hear From A Real Client</p>
+          <div className="card overflow-hidden p-0">
+            <video
+              src="https://nptrxzodrhchsrdn.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-04%20at%2023.38.31.mp4"
+              controls
+              playsInline
+              preload="metadata"
+              className="w-full h-auto block bg-black"
+            />
+          </div>
+        </div>
+
         <div className="card-teal px-4 py-3.5 flex items-start gap-3">
           <div className="flex-shrink-0 mt-0.5 text-brand-teal-dark">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

@@ -59,8 +59,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '${metaPixelId}');
-fbq('track', 'PageView');`,
+if(!window.__neogenPixelInit){window.__neogenPixelInit=true;fbq('init', '${metaPixelId}');fbq('track', 'PageView');}`,
             }}
           />
         )}

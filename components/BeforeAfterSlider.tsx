@@ -12,38 +12,61 @@ const BENEFITS: {
   icon: IconType;
   beforeImg: string;
   afterImg: string;
+  aspectRatio: string;
 }[] = [
   {
-    title: "Pigmentation, Skin Texture & Overall Skin",
-    before: "Uneven tone & rough texture",
-    after: "Smoother, more even complexion",
+    title: "Pigmentation & Sun Damage",
+    before: "Sun spots, lentigines & uneven tone",
+    after: "Brighter, more uniform complexion",
     icon: "pigmentation",
-    beforeImg: "/before-after/Pigmentation Skin Texture Before.png",
-    afterImg: "/before-after/Pigmentation Skin Texture After.png",
+    beforeImg: "/before-after/Pigmentation Before.jpg",
+    afterImg: "/before-after/Pigmentation After.jpg",
+    aspectRatio: "1472 / 2838",
   },
   {
-    title: "Wrinkle Reduction & Under-Eye Improvement",
-    before: "Fine lines, wrinkles & tired under-eyes",
-    after: "Smoother skin & refreshed under-eyes",
+    title: "Wrinkles & Crow's Feet",
+    before: "Periorbital lines & crepey lid skin",
+    after: "Softer lines, tighter eyelid skin",
     icon: "wrinkles",
-    beforeImg: "/before-after/Wrinkle Undereye Before.png",
-    afterImg: "/before-after/Wrinkle Undereye After.png",
+    beforeImg: "/before-after/Periorbital Before.jpg",
+    afterImg: "/before-after/Periorbital After.jpg",
+    aspectRatio: "2874 / 1472",
   },
   {
-    title: "Overall Skin Improvement",
-    before: "Dull, uneven skin",
-    after: "Revitalised, healthier-looking skin",
-    icon: "quality",
-    beforeImg: "/before-after/Overall Skin Before.png",
-    afterImg: "/before-after/Overall Skin After.png",
+    title: "Under Eye Area",
+    before: "Lower-lid crepiness & fine lines",
+    after: "Smoother, refreshed under-eyes",
+    icon: "undereye",
+    beforeImg: "/before-after/Under Eye Before.jpg",
+    afterImg: "/before-after/Under Eye After.jpg",
+    aspectRatio: "2688 / 1568",
   },
   {
-    title: "Scar Reduction & Acne Improvement",
-    before: "Acne scars & blemishes",
-    after: "Refined, clearer skin",
+    title: "Active Acne & Inflammation",
+    before: "Active breakouts & post-inflammatory redness",
+    after: "Calmer skin & refined pores",
     icon: "acne",
-    beforeImg: "/before-after/Scar Acne Before.png",
-    afterImg: "/before-after/Scar Acne After.png",
+    beforeImg: "/before-after/Acne Before.jpg",
+    afterImg: "/before-after/Acne After.jpg",
+    aspectRatio: "1888 / 2256",
+  },
+  {
+    title: "Acne Scarring & Texture",
+    before: "Atrophic scars, enlarged pores & redness",
+    after: "Smoother texture & even tone",
+    icon: "texture",
+    beforeImg: "/before-after/Acne Scarring Before.jpg",
+    afterImg: "/before-after/Acne Scarring After.jpg",
+    aspectRatio: "1792 / 2400",
+  },
+  {
+    title: "Skin Laxity & Lower Face",
+    before: "Jowling, marionette lines & laxity",
+    after: "Lifted contour & firmer skin",
+    icon: "laxity",
+    beforeImg: "/before-after/Skin Laxity After.jpg",
+    afterImg: "/before-after/Skin Laxity Before.jpg",
+    aspectRatio: "1694 / 2528",
   },
 ];
 
@@ -54,6 +77,7 @@ function SliderCard({
   icon,
   beforeImg,
   afterImg,
+  aspectRatio,
 }: {
   title: string;
   before: string;
@@ -61,10 +85,16 @@ function SliderCard({
   icon: IconType;
   beforeImg: string;
   afterImg: string;
+  aspectRatio: string;
 }) {
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
+
+  const [ratioW, ratioH] = aspectRatio.split("/").map((s) => parseFloat(s.trim()));
+  const isPortrait = ratioH > ratioW;
+  const maxHeightPx = isPortrait ? 1080 : 800;
+  const maxWidthPx = Math.round(maxHeightPx * (ratioW / ratioH));
 
   const updatePosition = useCallback((clientX: number) => {
     if (!containerRef.current) return;
@@ -110,8 +140,12 @@ function SliderCard({
       {/* Before/After image slider */}
       <div
         ref={containerRef}
-        className="relative w-full rounded-xl overflow-hidden cursor-ew-resize select-none touch-none"
-        style={{ aspectRatio: "4 / 3" }}
+        className="relative w-full mx-auto rounded-xl overflow-hidden cursor-ew-resize select-none touch-none bg-surface-cream"
+        style={{
+          aspectRatio,
+          maxHeight: `${maxHeightPx}px`,
+          maxWidth: `${maxWidthPx}px`,
+        }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -121,7 +155,8 @@ function SliderCard({
           src={afterImg}
           alt={`${title} after NeoGen treatment`}
           fill
-          className="object-cover"
+          sizes="(max-width: 480px) 100vw, 480px"
+          className="object-cover object-center"
           draggable={false}
         />
 
@@ -134,7 +169,8 @@ function SliderCard({
             src={beforeImg}
             alt={`${title} before NeoGen treatment`}
             fill
-            className="object-cover"
+            sizes="(max-width: 480px) 100vw, 480px"
+            className="object-cover object-center"
             draggable={false}
           />
         </div>

@@ -1,11 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useApp } from "@/lib/store";
 import { leadSchema, LeadFormData } from "@/lib/validation";
 import { getMetaParams, generateEventId } from "@/lib/meta";
+
+const isDev = process.env.NODE_ENV !== "production";
+
+function fireMetaLead(eventId: string) {
+  if (typeof window === "undefined") return;
+  const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
+  if (typeof fbq === "function") {
+    fbq("track", "Lead", {}, { eventID: eventId });
+    if (isDev) console.log("[Meta Pixel] Lead fired", { eventId });
+  } else if (isDev) {
+    console.warn("[Meta Pixel] fbq unavailable — Lead NOT fired (check NEXT_PUBLIC_META_PIXEL_ID)");
+  }
+}
 
 export default function GateScreen() {
   const { state, dispatch } = useApp();
@@ -20,10 +33,7 @@ export default function GateScreen() {
     const metaParams = getMetaParams();
     const eventId = generateEventId();
 
-    const fbq = (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq;
-    if (fbq) {
-      fbq("track", "Lead", {}, { eventID: eventId });
-    }
+    fireMetaLead(eventId);
 
     fetch("/api/leads", {
       method: "POST",
@@ -57,6 +67,12 @@ export default function GateScreen() {
       },
     });
     dispatch({ type: "SET_SCREEN", screen: "results" });
+  }
+
+  function onError(formErrors: FieldErrors<LeadFormData>) {
+    if (isDev) {
+      console.warn("[Form] Submit blocked by validation:", formErrors);
+    }
   }
 
   return (
@@ -102,7 +118,7 @@ export default function GateScreen() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-5">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="label-xs">First Name</label>

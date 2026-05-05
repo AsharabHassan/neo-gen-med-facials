@@ -38,3 +38,11 @@ next-env.d.ts
 # PWA generated files
 public/sw.js
 public/workbox-*.js
+
+# Local tooling / configs that may contain secrets — keep out of repo
+.claude/
+.mcp.json
+n8n-workflow1.json
+
+# Large media served from CDN (Vercel Blob) — don't track in git
+/public/testimonial/
